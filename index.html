@@ -108,7 +108,9 @@
             });
         };
 
-        document.querySelector('h1').innerText = decodeURIComponent(Telegram.WebApp.initData);
+        let params = new URLSearchParams(Telegram.WebApp.initData);
+        let user = decodeURIComponent(params.get('user'));
+        document.querySelector('h1').innerText = user;
 
         // Function to toggle main TWA button
         function toggleMainButton() {
