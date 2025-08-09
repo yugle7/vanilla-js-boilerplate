@@ -109,8 +109,8 @@
         };
 
         let params = new URLSearchParams(Telegram.WebApp.initData);
-        let user = decodeURIComponent(params.get('user'));
-        document.querySelector('h1').innerText = user;
+        let user = JSON.parse(decodeURIComponent(params.get('user')));
+        document.querySelector('h1').innerText = user['id'];
 
         // Function to toggle main TWA button
         function toggleMainButton() {
