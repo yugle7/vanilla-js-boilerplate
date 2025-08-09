@@ -108,9 +108,7 @@
             });
         };
 
-        Telegram.WebApp.initDataAsync().then(function(data) {
-            document.querySelector('h1').innerText = data;
-        });
+        document.querySelector('h1').innerText = Telegram.WebApp.initData;
 
         // Function to toggle main TWA button
         function toggleMainButton() {
