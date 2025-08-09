@@ -64,7 +64,8 @@
 
 <body>
     <main>
-        <h1>Telegram.WebApp.initData</h1>
+      
+        <h1></h1>
         <button onclick="Telegram.WebApp.showAlert('Hello World!');">Launch Alert</button>
         <button onclick="showPopup();">Launch Popup</button>
 
@@ -106,6 +107,10 @@
                 }
             });
         };
+
+        Telegram.WebApp.initDataAsync().then(function(data) {
+            document.querySelector('h1').innerText = data;
+        });
 
         // Function to toggle main TWA button
         function toggleMainButton() {
