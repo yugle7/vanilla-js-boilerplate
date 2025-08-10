@@ -44,8 +44,10 @@
 
         let hash = params.get('hash');
         params.delete('hash');
-        params.sort();
-        let checkDataString = params.toString().replaceAll('&', '\n');
+        const checkDataString = Array.from(params.entries())
+            .sort(([a], [b]) => a.localeCompare(b))
+            .map(([key, value]) => `${key}=${value}`)
+            .join('\n');
 
         const functionId = 'd4ep1aa8id0ppllbt3i7';
         const functionUrl = 'https://functions.yandexcloud.net/' + functionId;
