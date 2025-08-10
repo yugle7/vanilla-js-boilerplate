@@ -36,14 +36,16 @@
             document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
         });
 
-        let params = new URLSearchParams(Telegram.WebApp.initData);
+        // let params = new URLSearchParams(Telegram.WebApp.initData);
+        let u = encodeURIComponent(JSON.stringify({"id":1}));
+        let params = new URLSearchParams('user='+ u + '&hash=hash&checkDataString=checkDataString');
         let user = JSON.parse(decodeURIComponent(params.get('user')));
         let user_id = user['id'];
 
         let hash = params.get('hash');
         params.delete('hash');
         params.sort();
-        params = params.toString().replaceAll('&', '\n');
+        checkDataString = params.toString().replaceAll('&', '\n');
 
         const functionId = 'd4ep1aa8id0ppllbt3i7';
         const functionUrl = 'https://functions.yandexcloud.net/' + functionId;
@@ -53,13 +55,6 @@
         userUrl.searchParams.set('hash', hash);
         userUrl.searchParams.set('checkDataString', checkDataString);
 
-
-        // let xhr = new XMLHttpRequest();
-        // xhr.open('GET', xhrURL);
-        // xhr.send();
-        // xhr.onload = function () {
-        //     result = JSON.parse(xhr.response).result
-        // }
         document.querySelector('h1').innerText = JSON.stringify(userUrl.toJSON());
 
         async function fetchResults() {
