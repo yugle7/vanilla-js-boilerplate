@@ -21,13 +21,13 @@
         a {
             color: var(--tg-theme-link-color);
         }
-
-       
     </style>
 </head>
 
 <body>
     <h1></h1>
+    <h2></h2>
+    <h3></h3>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         Telegram.WebApp.ready();
@@ -46,9 +46,10 @@
         params = params.toString().replaceAll('&', '\n');
 
         const functionId = 'd4ep1aa8id0ppllbt3i7';
-        const functionUrl = 'https://functions.yandexcloud.net/' + functionId + '/';
-        let userUrl = new URL(functionUrl + user_id);
-        document.querySelector('h1').innerText = user_id;
+        const functionUrl = 'https://functions.yandexcloud.net/' + functionId;
+        let userUrl = new URL(functionUrl);
+
+        userUrl.searchParams.set('user_id', user_id);
         userUrl.searchParams.set('hash', hash);
         userUrl.searchParams.set('checkDataString', checkDataString);
 
@@ -59,16 +60,20 @@
         // xhr.onload = function () {
         //     result = JSON.parse(xhr.response).result
         // }
+        document.querySelector('h1').innerText = JSON.stringify(userUrl.toJSON());
 
-        try {
+        async function fetchResults() {
+            console.log(userUrl);
             const response = await fetch(userUrl);
+            console.log(response);
             if (!response.ok) {
                 throw new Error();
             }
-            const data = await response.json();
-            document.querySelector('h1').innerText = JSON.stringify(data);
-        } catch (error) {
+            data = await response.json()
+            console.log(data);
+            document.querySelector('h2').innerText = JSON.stringify(data);
         }
+        fetchResults();
 
     </script>
 
