@@ -27,6 +27,7 @@
 </head>
 
 <body>
+    <h1></h1>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
         Telegram.WebApp.ready();
@@ -44,25 +45,33 @@
         params.sort();
         params = params.toString().replaceAll('&', '\n');
 
-        let xhrURL = new URL('https://api/' + user_id);
+        const functionId = 'd4ep1aa8id0ppllbt3i7';
+        const functionUrl = 'https://functions.yandexcloud.net/' + functionId + '/';
+        let userUrl = new URL(functionUrl + user_id);
         document.querySelector('h1').innerText = user_id;
-        xhrURL.searchParams.set('hash', hash);
-        xhrURL.searchParams.set('checkDataString', checkDataString);
+        userUrl.searchParams.set('hash', hash);
+        userUrl.searchParams.set('checkDataString', checkDataString);
 
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', xhrURL);
-        xhr.send();
-        xhr.onload = function () {
-            result = JSON.parse(xhr.response).result
+
+        // let xhr = new XMLHttpRequest();
+        // xhr.open('GET', xhrURL);
+        // xhr.send();
+        // xhr.onload = function () {
+        //     result = JSON.parse(xhr.response).result
+        // }
+
+        try {
+            const response = await fetch(userUrl);
+            if (!response.ok) {
+                throw new Error();
+            }
+            const data = await response.json();
+            document.querySelector('h1').innerText = JSON.stringify(data);
+        } catch (error) {
         }
-
-        
 
     </script>
 
-    <!-- Eruda is console for mobile browsers -->
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
 </body>
 
 </html>
