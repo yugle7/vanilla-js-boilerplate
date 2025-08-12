@@ -58,8 +58,9 @@
         (async function () {
             const response = await fetch(userUrl);
             if (response.ok) {
+                document.querySelector('h1').innerText = 'OK';
                 data = await response.json()
-                document.querySelector('h1').innerText = JSON.stringify(data);
+                document.querySelector('div').innerText = JSON.stringify(data);
                 // console.log(JSON.stringify(data));
             }
 
