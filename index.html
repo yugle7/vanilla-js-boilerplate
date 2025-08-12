@@ -7,6 +7,7 @@
         content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Telegram Mini Apps Vanilla JS Sample App</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         body {
             --bg-color: var(--tg-theme-bg-color);
@@ -27,7 +28,7 @@
 <body>
     <div></div>
 
-    <canvas width="800" height="400"></canvas>
+    <svg width="800" height="400"></svg>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
@@ -60,37 +61,37 @@
                 data = await response.json()
                 // document.querySelector('div').innerText = JSON.stringify(data);
 
-                const canvas = document.querySelector('canvas');
+                const svg = document.querySelector('svg');
+                const dates = Object.keys(data);
+                const calories = Object.values(data);
 
-                const ctx = canvas.getContext('2d');
+                const xScale = d3.scaleLinear()
+                    .domain([0, dates.length - 1])
+                    .range([0, 800]);
 
-                // Определяем размеры графика
-                const margin = 20;
-                const barWidth = 40;
-                const barSpacing = 10;
-                const maxCalories = Math.max(...Object.values(data.energy));
+                const yScale = d3.scaleLinear()
+                    .domain([Math.min(...calories), Math.max(...calories)])
+                    .range([400, 0]);
 
-                // Рисуем оси координат
-                ctx.beginPath();
-                ctx.moveTo(margin, margin);
-                ctx.lineTo(margin, canvas.height - margin);
-                ctx.lineTo(canvas.width - margin, canvas.height - margin);
-                ctx.strokeStyle = 'black';
-                ctx.stroke();
+                const line = d3.line()
+                    .x((d, i) => xScale(i))
+                    .y((d) => yScale(d))
+                    .curve(d3.curveMonotoneX); // для плавной линии
 
-                // Рисуем бары
-                let x = margin + barWidth / 2;
-                for (const date in caloriesData) {
-                    const calories = caloriesData[date];
-                    const y = canvas.height - margin - (calories / maxCalories) * (canvas.height - 2 * margin);
+                const path = svg.append('path')
+                    .attr('d', line(calories))
+                    .attr('fill', 'none')
+                    .attr('stroke', 'black');
 
-                    ctx.beginPath();
-                    ctx.rect(x, y, barWidth, canvas.height - margin - y);
-                    ctx.fillStyle = 'blue';
-                    ctx.fill();
+                const xAxis = d3.axisBottom(xScale);
+                const yAxis = d3.axisLeft(yScale);
 
-                    x += barWidth + barSpacing;
-                }
+                svg.append('g')
+                    .call(xAxis)
+                    .attr('transform', 'translate(0, 400)');
+
+                svg.append('g')
+                    .call(yAxis);
 
             }
         })();
