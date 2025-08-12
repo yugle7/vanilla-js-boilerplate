@@ -55,12 +55,13 @@
         url.searchParams.set('hash', hash);
         url.searchParams.set('checkDataString', checkDataString);
 
+        document.querySelector('h1').innerText = '1';
         (async function () {
             const response = await fetch(userUrl);
             if (response.ok) {
-                document.querySelector('h1').innerText = 'OK';
-                data = await response.json()
-                document.querySelector('div').innerText = JSON.stringify(data);
+                document.querySelector('h2').innerText = '2';
+                // data = await response.json()
+                // document.querySelector('div').innerText = JSON.stringify(data);
                 // console.log(JSON.stringify(data));
             }
 
