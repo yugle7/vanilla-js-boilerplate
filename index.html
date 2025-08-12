@@ -37,10 +37,7 @@
         });
 
         let params = new URLSearchParams(Telegram.WebApp.initData);
-        // let u = encodeURIComponent(JSON.stringify({"id":1}));
-        // let params = new URLSearchParams('user='+ u + '&hash=hash&checkDataString=checkDataString');
         let user = JSON.parse(decodeURIComponent(params.get('user')));
-        let user_id = user['id'];
 
         let hash = params.get('hash');
         params.delete('hash');
@@ -49,28 +46,21 @@
             .map(([key, value]) => `${key}=${value}`)
             .join('\n');
 
-        const functionId = 'd4ep1aa8id0ppllbt3i7';
-        const functionUrl = 'https://functions.yandexcloud.net/' + functionId;
-        let userUrl = new URL(functionUrl);
+        const id = 'd4ep1aa8id0ppllbt3i7';
+        let url = new URL('https://functions.yandexcloud.net/' + id);
 
-        userUrl.searchParams.set('user_id', user_id);
-        userUrl.searchParams.set('hash', hash);
-        userUrl.searchParams.set('checkDataString', checkDataString);
+        url.searchParams.set('user_id', user['id']);
+        url.searchParams.set('hash', hash);
+        url.searchParams.set('checkDataString', checkDataString);
 
-        document.querySelector('h1').innerText = JSON.stringify(userUrl.toJSON());
-
-        async function fetchResults() {
-            console.log(userUrl);
+        (async function () {
             const response = await fetch(userUrl);
-            console.log(response);
-            if (!response.ok) {
-                throw new Error();
+            if (response.ok) {
+                data = await response.json()
+                console.log(data);
             }
-            data = await response.json()
-            console.log(data);
-            document.querySelector('h2').innerText = JSON.stringify(data);
-        }
-        fetchResults();
+
+        })();
 
     </script>
 
