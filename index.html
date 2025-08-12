@@ -57,12 +57,12 @@
 
         document.querySelector('h1').innerText = '1';
         (async function () {
-            const response = await fetch(userUrl);
+            const response = await fetch(url);
             if (response.ok) {
                 document.querySelector('h2').innerText = '2';
-                // data = await response.json()
-                // document.querySelector('div').innerText = JSON.stringify(data);
-                // console.log(JSON.stringify(data));
+                data = await response.json()
+                document.querySelector('div').innerText = JSON.stringify(data);
+                console.log(JSON.stringify(data));
             }
 
         })();
