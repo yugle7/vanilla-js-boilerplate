@@ -25,9 +25,6 @@
 </head>
 
 <body>
-    <h1></h1>
-    <h2></h2>
-    <h3></h3>
     <div></div>
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -55,14 +52,11 @@
         url.searchParams.set('hash', hash);
         url.searchParams.set('checkDataString', checkDataString);
 
-        document.querySelector('h1').innerText = '1';
         (async function () {
             const response = await fetch(url);
             if (response.ok) {
-                document.querySelector('h2').innerText = '2';
                 data = await response.json()
                 document.querySelector('div').innerText = JSON.stringify(data);
-                console.log(JSON.stringify(data));
             }
 
         })();
