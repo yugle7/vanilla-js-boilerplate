@@ -252,7 +252,7 @@
                 results = data['results'];
                 user = data['user'];
 
-                drawn.forEach((key, i) => draw(key, data[key], user[key]));
+                drawn.forEach((key, i) => draw(key, results[key], user[key]));
             }
         })();
 
